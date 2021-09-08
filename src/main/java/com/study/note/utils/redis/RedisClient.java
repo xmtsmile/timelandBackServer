@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedisClient {
 
-    public static final long TOKEN_EXPIRES_SECOND = 1800;
+    public static final long TOKEN_EXPIRES_SECOND = 40;
 
     @Autowired
     private StringRedisTemplate redisTpl;
