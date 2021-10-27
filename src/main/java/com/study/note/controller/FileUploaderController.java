@@ -7,14 +7,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/noAuth/upload")
+@RequestMapping("/upload")
 public class FileUploaderController {
 
     //MinIO上传
     @PostMapping("/fileupload")
-    public void fileupload() {
+    public void fileupload(MultipartFile file) {
         try {
             MinioClient client = MinioClient.builder().endpoint("http://127.0.0.1:9000").credentials("admin", "12345678").build();
 
@@ -25,8 +26,8 @@ public class FileUploaderController {
                 client.makeBucket(MakeBucketArgs.builder().bucket("burger").build());
             }
 
-            File file = new File("E:/text.txt");
-            InputStream inputStream = new FileInputStream(file);
+//            File file = new File("E:/text.txt");
+            InputStream inputStream = file.getInputStream();
             client.putObject(PutObjectArgs.builder().bucket("burger").object("ham")
                     .stream(inputStream, inputStream.available(), -1).contentType("text/plain").build());
             System.out.println("文件已经成功上传");
@@ -38,11 +39,14 @@ public class FileUploaderController {
 
     //MinIO下载
     @GetMapping("/fileload")
-    public void fileload(){
+    public void fileload(@RequestBody Map<String, Object> params){
         try {
+            String bucketName = params.get("bucketName").toString();
+            String fileName = params.get("fileName").toString();
+
             MinioClient client = MinioClient.builder().endpoint("http://127.0.0.1:9000").credentials("admin", "12345678").build();
 
-            client.downloadObject(DownloadObjectArgs.builder().bucket("burger").object("ham").filename("E:/ham.txt").build());
+            client.downloadObject(DownloadObjectArgs.builder().bucket(bucketName).object(fileName).filename("E:/file图片.jpg").build());
         }
         catch(Exception e) {
             System.out.println("Error occurred: " + e);

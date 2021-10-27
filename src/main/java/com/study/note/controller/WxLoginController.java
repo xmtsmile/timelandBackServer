@@ -36,7 +36,7 @@ public class WxLoginController {
     private TokenHelper tokenHelper;
 
     @PostMapping("/Wx")
-    public Map<String, Object> wxlogin(@RequestBody  String code){
+    public Map<String, Object> wxlogin(@RequestBody String code){
         JSONObject jsonObject = JSONObject.fromObject(code);
         String jscode = jsonObject.getString("code");
         String token_url = "https://api.weixin.qq.com/sns/jscode2session?appid=wx82394202869c2a47&secret=408d420003f2b6f5abd359d9070a4bc8&js_code=" +
