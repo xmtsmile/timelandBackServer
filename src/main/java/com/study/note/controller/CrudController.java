@@ -2,13 +2,15 @@ package com.study.note.controller;
 
 import com.study.note.common.DataResponse;
 import com.study.note.service.CrudService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @RestController
-@RequestMapping("/noAuth/crud")
+@RequestMapping("/crud")
+@Api("测试用")
 public class CrudController {
 
     @Autowired
@@ -37,5 +39,23 @@ public class CrudController {
     public DataResponse selectById(@RequestBody(required = false) Map<String, Object> params) {
 
         return this.crudService.selectById(params);
+    }
+
+    //测试
+    @PostMapping("/test")
+    public int[] plusOne(@RequestParam int[] digits) {
+        String str = "";
+        for (int digit : digits) {
+            str += String.valueOf(digit);
+        }
+        int num = Integer.parseInt(str) + 1;
+        str = String.valueOf(num);
+        int[] newDigits = new int[str.length()];
+        for(int j = 0; j < str.length(); j++)
+        {
+            String m = str.substring(j, j + 1);
+            newDigits[j] = Integer.parseInt(m);
+        }
+        return newDigits;
     }
 }

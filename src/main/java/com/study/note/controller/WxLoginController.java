@@ -1,10 +1,8 @@
 package com.study.note.controller;
 
-import com.study.note.entity.User;
-import com.study.note.mapper.UserMapper;
-import com.study.note.service.UserService;
 import com.study.note.utils.token.TokenModel;
 import com.study.note.utils.token.TokenHelper;
+import io.swagger.annotations.Api;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +22,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/WxLogin")
+@Api("登录")
 public class WxLoginController {
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private UserMapper userMapper;
 
     @Autowired
     private TokenHelper tokenHelper;
@@ -51,18 +44,6 @@ public class WxLoginController {
         map.put("openid", openid);
         map.put("session_key", session_key);
         map.put("token", model.getToken());
-
-        User user = userMapper.findById(openid);
-
-        if(user==null){
-            user = new User();
-            user.setId(openid);
-
-            userService.wxlogin(user);
-        }
-        else{
-            System.out.println("用户已存在");
-        }
 
         return map;
     }

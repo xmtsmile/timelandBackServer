@@ -11,4 +11,6 @@ import java.util.List;
 @Component
 public interface NoteMapper extends BaseMapper<Note> {
     List<Note> selectByPages(int pageNum);
+
+    void delete(String userId);
 }

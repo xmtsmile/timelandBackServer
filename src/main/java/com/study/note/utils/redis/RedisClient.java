@@ -61,4 +61,20 @@ public class RedisClient {
         }
         return result;
     }
+
+    /**
+     * 获取redis中的值
+     * @param key
+     * @return
+     */
+    public String get(String key) {
+        String result = null;
+        try {
+            result = redisTpl.opsForValue().get(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+
+    }
 }

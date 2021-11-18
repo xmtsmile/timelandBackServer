@@ -1,13 +1,12 @@
 package com.study.note.service;
 
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.github.pagehelper.PageHelper;
 import com.study.note.common.BizSuccessEnum;
 import com.study.note.common.DataResponse;
 import com.study.note.entity.Note;
 import com.study.note.mapper.NoteMapper;
+import com.study.note.utils.token.TokenHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,9 +23,13 @@ public class NoteService {
     @Autowired
     private NoteMapper noteMapper;
 
+    @Autowired
+    private TokenHelper tokenHelper;
+
     //新增
     public DataResponse add(Map<String, Object> params) {
         Note note = JSON.parseObject(JSON.toJSONString(params), Note.class);
+        note.setUserId(tokenHelper.get(note.getUserId()));
         note.setRecordID(UUID.randomUUID().toString());
         note.setCreateDate(new Date());
         this.noteMapper.insert(note);
@@ -37,7 +40,7 @@ public class NoteService {
     public DataResponse update(Map<String, Object> params) {
         Note note = JSON.parseObject(JSON.toJSONString(params), Note.class);
         UpdateWrapper<Note> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.lambda().eq(Note::getRecordID, note.getRecordID())
+        updateWrapper.lambda().eq(Note::getUserId, tokenHelper.get(note.getUserId()))
                 .set(Note::getTitle, note.getTitle())
                 .set(Note::getText, note.getText());
         this.noteMapper.update(null, updateWrapper);
@@ -48,9 +51,7 @@ public class NoteService {
     //删除
     public DataResponse delete(Map<String, Object> params) {
         Note note = JSON.parseObject(JSON.toJSONString(params), Note.class);
-        Note keyObj = new Note();
-        keyObj.setRecordID(note.getRecordID());
-        this.noteMapper.delete(new QueryWrapper<>(keyObj));
+        this.noteMapper.delete(tokenHelper.get(note.getUserId()));
         return new DataResponse().defaultOperationResponse(BizSuccessEnum.BUSINESS_OPERATE_SUCCESS.getMessage());
     }
 

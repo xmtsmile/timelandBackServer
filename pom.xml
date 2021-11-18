@@ -73,6 +73,19 @@
             <artifactId>pagehelper</artifactId>
             <version>4.1.4</version>
         </dependency>
+
+        <!-- swagger -->
+        <dependency>
+            <groupId>com.spring4all</groupId>
+            <artifactId>swagger-spring-boot-starter</artifactId>
+            <version>1.6.0.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -86,6 +99,10 @@
         <resources>
             <resource>
                 <directory>src/main/web</directory>
+            </resource>
+
+            <resource>
+                <directory>src/main/resources</directory>
             </resource>
         </resources>
     </build>

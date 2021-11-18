@@ -3,6 +3,11 @@
 
 <mapper namespace="com.study.note.mapper.NoteMapper">
 
+    <delete id="delete">
+        delete from note
+        where user_id = #{userId}
+    </delete>
+
     <select id="selectByPages" resultType="com.study.note.entity.Note">
         select * from note
         where user_id = 'aaa'

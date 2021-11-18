@@ -2,6 +2,7 @@ package com.study.note.controller;
 
 import io.minio.*;
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,6 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/upload")
+@Api("文件")
 public class FileUploaderController {
 
     //MinIO上传

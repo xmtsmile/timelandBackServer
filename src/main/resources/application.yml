@@ -6,7 +6,7 @@ spring:
     static-locations: classpath:/
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/note?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=CTT
+    url: jdbc:mysql://127.0.0.1:3306/note?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=CTT
     username: root
     password: 123456
     filters: wall,mergeStat
@@ -17,6 +17,11 @@ spring:
     prefix: classpath:/            # 静态页面所在的路径，一般在resources文件夹下创建
     suffix: .html
     enabled: false
+
+swagger:
+  enabled: true
+  title: 接口文档
+  description: 时光岛
 
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
